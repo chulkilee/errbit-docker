@@ -1,0 +1,7 @@
+.bundle
+
+.dockerignore
+.git
+.gitignore
+Dockerfile
+errbit/.git
