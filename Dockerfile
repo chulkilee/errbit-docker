@@ -4,6 +4,7 @@ ENV APP_HOME /opt/errbit
 
 ENV RAILS_ENV production
 ENV HEROKU 1
+ENV ERRBIT_MONGO_DATABASE errbit
 
 RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
@@ -12,8 +13,9 @@ COPY UserGemfile errbit/Gemfile errbit/Gemfile.lock $APP_HOME/
 RUN bundle install --without development test
 
 COPY errbit $APP_HOME
+COPY errbit.sh $APP_HOME/
 
 RUN bundle exec rake assets:precompile
 
 EXPOSE 8080
-CMD bundle exec unicorn -p 8080 -o 0.0.0.0 -c ./config/unicorn.default.rb
+CMD ./errbit.sh
