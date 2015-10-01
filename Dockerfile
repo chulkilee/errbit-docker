@@ -1,6 +1,8 @@
 FROM ruby:2.2.3
 
 ENV APP_HOME /opt/errbit
+
+ENV RAILS_ENV production
 ENV HEROKU 1
 
 RUN mkdir -p $APP_HOME
