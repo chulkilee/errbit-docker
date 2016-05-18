@@ -1,11 +1,15 @@
 web:
+  container_name: errbit_web
   build: .
   links:
-  - mongo
+    - mongo
   environment:
-    SECRET_KEY_BASE: foobar
-  ports:
-  - "0.0.0.0:8080:8080"
+    - VIRTUAL_HOST=errbit.test
+    - SECRET_KEY_BASE=foobar
+    - ERRBIT_HOST=errbit.test
+    - ERRBIT_PROTOCOL=https
+    - MONGO_URL=mongodb://mongo/errbit
 
 mongo:
+  container_name: errbit_mongo
   image: mongo:latest

@@ -1,21 +1,14 @@
-FROM ruby:2.2.3
+FROM ruby:2.3.1
 
-ENV APP_HOME /opt/errbit
+WORKDIR /usr/src/app
+EXPOSE 3000
+RUN gem install bundler
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get -y --no-install-recommends install nodejs && rm -rf /var/lib/apt/lists/*
 
-ENV RAILS_ENV production
-ENV HEROKU 1
-ENV ERRBIT_MONGO_DATABASE errbit
+COPY errbit/Gemfile errbit/Gemfile.lock UserGemfile /usr/src/app/
+RUN bundle install --jobs 8 --retry 5
 
-RUN mkdir -p $APP_HOME
-WORKDIR $APP_HOME
+COPY errbit /usr/src/app
+RUN RAILS_ENV=production bundle exec rake assets:precompile
 
-COPY UserGemfile errbit/Gemfile errbit/Gemfile.lock $APP_HOME/
-RUN bundle install --without development test
-
-COPY errbit $APP_HOME
-COPY errbit.sh $APP_HOME/
-
-RUN bundle exec rake assets:precompile
-
-EXPOSE 8080
-CMD ./errbit.sh
+CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
