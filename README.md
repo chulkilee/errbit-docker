@@ -1,5 +1,7 @@
 # errbit-docker
 
+**:warning: Use [errbit/errbit image](https://hub.docker.com/r/errbit/errbit/) - this repo is no longer maintained :warning:**
+
 docker container for [errbit](https://github.com/errbit/errbit)
 
 ## Using docker-compose
